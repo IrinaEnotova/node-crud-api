@@ -1,12 +1,31 @@
 {
   "name": "crud-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "Task 3 - CRUD API",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start:dev": "nodemon",
+    "start:prod": "webpack --mode=production --node-env=production && node dist/bundle.js",
+    "build": "webpack --mode=production --node-env=production",
+    "watch": "webpack --watch"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "author": "Irina Akhanteva",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.11.16",
+    "@types/uuid": "^9.0.8",
+    "@types/webpack": "^5.28.5",
+    "clean-webpack-plugin": "^4.0.0",
+    "nodemon": "^3.0.3",
+    "ts-loader": "^9.5.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3",
+    "webpack": "^5.90.1",
+    "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.1",
+    "uuid": "^9.0.1"
+  }
 }
