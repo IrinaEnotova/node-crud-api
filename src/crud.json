@@ -1,0 +1,62 @@
+[
+  {
+    "id": "aacc8d33-e964-44c7-b090-c9e1171a72dc",
+    "username": "Ivy Greenier",
+    "age": 54,
+    "hobbies": ["sing"]
+  },
+  {
+    "id": "5f2ae21f-9320-4d7f-993e-5d57192f14d5",
+    "username": "Arte Perotti",
+    "age": 45,
+    "hobbies": ["swim"]
+  },
+  {
+    "id": "555a0b16-8501-4267-b3b3-94ff6489b180",
+    "username": "Marcellina Henken",
+    "age": 75,
+    "hobbies": ["dance"]
+  },
+  {
+    "id": "7cbfed38-3053-4414-bb76-9469dff9061c",
+    "username": "Lovell Mortimer",
+    "age": 36,
+    "hobbies": ["eat"]
+  },
+  {
+    "id": "4ef51429-0ee3-4d08-b51b-c4e941d05073",
+    "username": "Free Diament",
+    "age": 69,
+    "hobbies": ["sleep"]
+  },
+  {
+    "id": "862ca0fa-0b29-4f01-af63-30438dfa08b1",
+    "username": "Georgette Tremelling",
+    "age": 73,
+    "hobbies": ["love"]
+  },
+  {
+    "id": "029be749-98fb-479b-a968-be337efe3dc6",
+    "username": "Amby Coskerry",
+    "age": 20,
+    "hobbies": ["play videogames"]
+  },
+  {
+    "id": "987a79af-689b-45c1-9892-c0f078908abe",
+    "username": "Ted Udale",
+    "age": 59,
+    "hobbies": ["listen music"]
+  },
+  {
+    "id": "e96ee9d9-759c-49fb-80f1-cb64b535a702",
+    "username": "Ingmar Hefferan",
+    "age": 34,
+    "hobbies": ["read book"]
+  },
+  {
+    "id": "b23410db-d9c1-4f1a-bdca-96644ba86cd6",
+    "username": "Graehme Kubec",
+    "age": 33,
+    "hobbies": ["ski"]
+  }
+]
