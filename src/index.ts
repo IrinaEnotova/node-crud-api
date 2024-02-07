@@ -1,10 +1,15 @@
 import http from "http";
-import { default as data } from "./data/users.json" assert { type: "json" };
+import { getUser, getUsers, createUser } from "./controllers/userController.js";
 
 const server = http.createServer((req, res) => {
   if (req.url === "/api/users" && req.method === "GET") {
-    res.writeHead(200, { "Content-Type": "application/json" });
-    res.end(JSON.stringify(data));
+    getUsers(req, res);
+    // TODO change for uuid
+  } else if (req.url?.split("/")[3] && req.method === "GET") {
+    const id = req.url.split("/")[3];
+    getUser(req, res, id);
+  } else if (req.url === "/api/users" && req.method === "POST") {
+    createUser(req, res);
   } else {
     res.writeHead(404, { "Content-Type": "application/json" });
     res.end(JSON.stringify({ message: "route was not found" }));
