@@ -95,3 +95,27 @@ export async function updateUser(
     console.log(error);
   }
 }
+
+// @desk Delete User
+// @route DELETE /api/users/:id
+export async function deleteUser(
+  req: IncomingMessage,
+  res: ServerResponse<IncomingMessage>,
+  id
+) {
+  try {
+    const user = await User.findById(id);
+    if (!user) {
+      res.writeHead(404, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "User was not found" }));
+    } else {
+      await User.remove(id);
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(
+        JSON.stringify({ message: `User ${user.id} was successfully removed` })
+      );
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}

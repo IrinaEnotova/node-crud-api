@@ -43,3 +43,11 @@ export function update(
     resolve(data[index]);
   });
 }
+
+export function remove(id) {
+  return new Promise<void>((resolve, reject) => {
+    const filteredData = data.filter((userItem) => userItem.id !== id);
+    writeDataToFile("./src/data/users.json", filteredData);
+    resolve();
+  });
+}
