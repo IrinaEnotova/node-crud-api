@@ -1,15 +1,16 @@
 import { default as data } from "../data/users.json" assert { type: "json" };
 import { v4 } from "uuid";
 import writeDataToFile from "../utils/writeDataToFile";
+import { IUser } from "../interfaces";
 
 export function findAll() {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     resolve(data);
   });
 }
 
-export function findById(id) {
-  return new Promise((resolve, reject) => {
+export function findById(id: string): Promise<IUser | undefined> {
+  return new Promise((resolve) => {
     const user = data.find((dataItem) => dataItem.id === id);
     resolve(user);
   });
@@ -20,7 +21,7 @@ export function create(user: {
   age: number;
   hobbies: string[];
 }) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     const newUser = { id: v4(), ...user };
     data.push(newUser);
     writeDataToFile("./src/data/users.json", data);
@@ -29,14 +30,14 @@ export function create(user: {
 }
 
 export function update(
-  id,
+  id: string,
   user: {
     username: string;
     age: number;
     hobbies: string[];
   }
 ) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     const index = data.findIndex((userItem) => userItem.id === id);
     data[index] = { id, ...user };
     writeDataToFile("./src/data/users.json", data);
@@ -44,8 +45,8 @@ export function update(
   });
 }
 
-export function remove(id) {
-  return new Promise<void>((resolve, reject) => {
+export function remove(id: string) {
+  return new Promise<void>((resolve) => {
     const filteredData = data.filter((userItem) => userItem.id !== id);
     writeDataToFile("./src/data/users.json", filteredData);
     resolve();

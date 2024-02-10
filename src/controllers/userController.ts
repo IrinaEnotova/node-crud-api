@@ -1,14 +1,11 @@
-import { IncomingMessage, ServerResponse, get } from "http";
+import { IncomingMessage, ServerResponse } from "http";
 
 import * as User from "../models/userModel";
 import getPostData from "../utils/getPostData";
 
 // @desk Get All Users
 // @route GET /api/users
-export async function getUsers(
-  req: IncomingMessage,
-  res: ServerResponse<IncomingMessage>
-) {
+export async function getUsers(res: ServerResponse<IncomingMessage>) {
   try {
     const users = await User.findAll();
     res.writeHead(200, { "Content-Type": "application/json" });
@@ -21,9 +18,8 @@ export async function getUsers(
 // @desk Get Single User
 // @route GET /api/users/:id
 export async function getUser(
-  req: IncomingMessage,
   res: ServerResponse<IncomingMessage>,
-  id
+  id: string
 ) {
   try {
     const user = await User.findById(id);
@@ -68,7 +64,7 @@ export async function createUser(
 export async function updateUser(
   req: IncomingMessage,
   res: ServerResponse<IncomingMessage>,
-  id
+  id: string
 ) {
   try {
     const currentUser = await User.findById(id);
@@ -99,9 +95,8 @@ export async function updateUser(
 // @desk Delete User
 // @route DELETE /api/users/:id
 export async function deleteUser(
-  req: IncomingMessage,
   res: ServerResponse<IncomingMessage>,
-  id
+  id: string
 ) {
   try {
     const user = await User.findById(id);

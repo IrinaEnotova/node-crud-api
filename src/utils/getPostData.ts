@@ -1,6 +1,6 @@
 import { IncomingMessage } from "http";
 
-export default function getPostData(req: IncomingMessage) {
+export default function getPostData(req: IncomingMessage): Promise<string> {
   return new Promise((resolve, reject) => {
     try {
       let body = "";
