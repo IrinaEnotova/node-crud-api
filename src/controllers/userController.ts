@@ -46,12 +46,6 @@ export async function createUser(
   res: ServerResponse<IncomingMessage>
 ) {
   try {
-    // let body = "";
-
-    // req.on("data", (chunk) => {
-    //   body += chunk.toString();
-    // });
-    // req.on("end", async () => {
     const body = await getPostData(req);
     const { username, age, hobbies } = JSON.parse(body);
 
@@ -64,7 +58,39 @@ export async function createUser(
 
     res.writeHead(201, { "Content-Type": "application/json" });
     return res.end(JSON.stringify(newUser));
-    // });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// @desk Update User
+// @route PUT /api/users
+export async function updateUser(
+  req: IncomingMessage,
+  res: ServerResponse<IncomingMessage>,
+  id
+) {
+  try {
+    const currentUser = await User.findById(id);
+
+    if (!currentUser) {
+      res.writeHead(404, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "User was not found" }));
+    } else {
+      const body = await getPostData(req);
+      const { username, age, hobbies } = JSON.parse(body);
+
+      const userData = {
+        username: username || currentUser.username,
+        age: age || currentUser.age,
+        hobbies: hobbies || currentUser.hobbies,
+      };
+
+      const updatedUser = await User.update(id, userData);
+
+      res.writeHead(200, { "Content-Type": "application/json" });
+      return res.end(JSON.stringify(updatedUser));
+    }
   } catch (error) {
     console.log(error);
   }

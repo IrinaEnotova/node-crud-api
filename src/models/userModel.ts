@@ -15,11 +15,31 @@ export function findById(id) {
   });
 }
 
-export function create(user) {
+export function create(user: {
+  username: string;
+  age: number;
+  hobbies: string[];
+}) {
   return new Promise((resolve, reject) => {
     const newUser = { id: v4(), ...user };
     data.push(newUser);
     writeDataToFile("./src/data/users.json", data);
     resolve(newUser);
+  });
+}
+
+export function update(
+  id,
+  user: {
+    username: string;
+    age: number;
+    hobbies: string[];
+  }
+) {
+  return new Promise((resolve, reject) => {
+    const index = data.findIndex((userItem) => userItem.id === id);
+    data[index] = { id, ...user };
+    writeDataToFile("./src/data/users.json", data);
+    resolve(data[index]);
   });
 }

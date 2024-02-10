@@ -1,5 +1,10 @@
 import http from "http";
-import { getUser, getUsers, createUser } from "./controllers/userController.js";
+import {
+  getUser,
+  getUsers,
+  createUser,
+  updateUser,
+} from "./controllers/userController.js";
 
 const server = http.createServer((req, res) => {
   if (req.url === "/api/users" && req.method === "GET") {
@@ -10,6 +15,9 @@ const server = http.createServer((req, res) => {
     getUser(req, res, id);
   } else if (req.url === "/api/users" && req.method === "POST") {
     createUser(req, res);
+  } else if (req.url?.split("/")[3] && req.method === "PUT") {
+    const id = req.url.split("/")[3];
+    updateUser(req, res, id);
   } else {
     res.writeHead(404, { "Content-Type": "application/json" });
     res.end(JSON.stringify({ message: "route was not found" }));
