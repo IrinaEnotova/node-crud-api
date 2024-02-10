@@ -1,6 +1,7 @@
-import { IncomingMessage, ServerResponse } from "http";
+import { IncomingMessage, ServerResponse, get } from "http";
 
 import * as User from "../models/userModel";
+import getPostData from "../utils/getPostData";
 
 // @desk Get All Users
 // @route GET /api/users
@@ -45,6 +46,25 @@ export async function createUser(
   res: ServerResponse<IncomingMessage>
 ) {
   try {
+    // let body = "";
+
+    // req.on("data", (chunk) => {
+    //   body += chunk.toString();
+    // });
+    // req.on("end", async () => {
+    const body = await getPostData(req);
+    const { username, age, hobbies } = JSON.parse(body);
+
+    const user = {
+      username,
+      age,
+      hobbies,
+    };
+    const newUser = await User.create(user);
+
+    res.writeHead(201, { "Content-Type": "application/json" });
+    return res.end(JSON.stringify(newUser));
+    // });
   } catch (error) {
     console.log(error);
   }

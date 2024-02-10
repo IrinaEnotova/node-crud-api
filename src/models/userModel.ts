@@ -1,4 +1,6 @@
 import { default as data } from "../data/users.json" assert { type: "json" };
+import { v4 } from "uuid";
+import writeDataToFile from "../utils/writeDataToFile";
 
 export function findAll() {
   return new Promise((resolve, reject) => {
@@ -10,5 +12,14 @@ export function findById(id) {
   return new Promise((resolve, reject) => {
     const user = data.find((dataItem) => dataItem.id === id);
     resolve(user);
+  });
+}
+
+export function create(user) {
+  return new Promise((resolve, reject) => {
+    const newUser = { id: v4(), ...user };
+    data.push(newUser);
+    writeDataToFile("./src/data/users.json", data);
+    resolve(newUser);
   });
 }
