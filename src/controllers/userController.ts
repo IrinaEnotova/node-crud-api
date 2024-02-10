@@ -44,16 +44,25 @@ export async function createUser(
   try {
     const body = await getPostData(req);
     const { username, age, hobbies } = JSON.parse(body);
+    if (!username || !age || !hobbies) {
+      res.writeHead(400, { "Content-Type": "application/json" });
+      return res.end(
+        JSON.stringify({
+          message:
+            "Body does not contain required fields. Check username, age and hobbies",
+        })
+      );
+    } else {
+      const user = {
+        username,
+        age,
+        hobbies,
+      };
+      const newUser = await User.create(user);
 
-    const user = {
-      username,
-      age,
-      hobbies,
-    };
-    const newUser = await User.create(user);
-
-    res.writeHead(201, { "Content-Type": "application/json" });
-    return res.end(JSON.stringify(newUser));
+      res.writeHead(201, { "Content-Type": "application/json" });
+      return res.end(JSON.stringify(newUser));
+    }
   } catch (error) {
     console.log(error);
   }
@@ -105,7 +114,7 @@ export async function deleteUser(
       res.end(JSON.stringify({ message: "User was not found" }));
     } else {
       await User.remove(id);
-      res.writeHead(200, { "Content-Type": "application/json" });
+      res.writeHead(204, { "Content-Type": "application/json" });
       res.end(
         JSON.stringify({ message: `User ${user.id} was successfully removed` })
       );
