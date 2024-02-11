@@ -4,3 +4,9 @@ export interface IUser {
   age: number;
   hobbies: string[];
 }
+
+export interface IUserData {
+  username: string;
+  age: number;
+  hobbies: string[];
+}
