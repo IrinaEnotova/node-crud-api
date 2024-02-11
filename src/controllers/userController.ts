@@ -11,7 +11,10 @@ export async function getUsers(res: ServerResponse<IncomingMessage>) {
     res.writeHead(200, { "Content-Type": "application/json" });
     res.end(JSON.stringify(users));
   } catch (error) {
-    console.log(error);
+    res.writeHead(500, { "Content-Type": "application/json" });
+    res.end(
+      JSON.stringify({ message: "Server Error: during operation 'get users'" })
+    );
   }
 }
 
@@ -31,7 +34,12 @@ export async function getUser(
       res.end(JSON.stringify(user));
     }
   } catch (error) {
-    console.log(error);
+    res.writeHead(500, { "Content-Type": "application/json" });
+    res.end(
+      JSON.stringify({
+        message: "Server Error: during operation 'get single user'",
+      })
+    );
   }
 }
 
@@ -64,7 +72,12 @@ export async function createUser(
       return res.end(JSON.stringify(newUser));
     }
   } catch (error) {
-    console.log(error);
+    res.writeHead(500, { "Content-Type": "application/json" });
+    res.end(
+      JSON.stringify({
+        message: "Server Error: during operation 'create user'",
+      })
+    );
   }
 }
 
@@ -97,7 +110,12 @@ export async function updateUser(
       return res.end(JSON.stringify(updatedUser));
     }
   } catch (error) {
-    console.log(error);
+    res.writeHead(500, { "Content-Type": "application/json" });
+    res.end(
+      JSON.stringify({
+        message: "Server Error: during operation 'update user'",
+      })
+    );
   }
 }
 
@@ -120,6 +138,11 @@ export async function deleteUser(
       );
     }
   } catch (error) {
-    console.log(error);
+    res.writeHead(500, { "Content-Type": "application/json" });
+    res.end(
+      JSON.stringify({
+        message: "Server Error: during operation 'delete user'",
+      })
+    );
   }
 }
