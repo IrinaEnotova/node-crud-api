@@ -11,7 +11,7 @@ import isValidUuid from "./utils/isValidUuid";
 
 dotenv.config();
 
-const server = http.createServer((req, res) => {
+export const server = http.createServer((req, res) => {
   try {
     if (req.url === "/api/users" && req.method === "GET") {
       getUsers(res);
@@ -51,6 +51,6 @@ const server = http.createServer((req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 5000;
+export const PORT = process.env.PORT || 5000;
 
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));

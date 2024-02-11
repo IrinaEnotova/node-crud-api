@@ -1,7 +1,7 @@
-import { default as data } from "../data/users.json" assert { type: "json" };
 import { v4 } from "uuid";
-import writeDataToFile from "../utils/writeDataToFile";
 import { IUser } from "../interfaces";
+
+let data: IUser[] = [];
 
 export function findAll() {
   return new Promise((resolve) => {
@@ -24,7 +24,6 @@ export function create(user: {
   return new Promise((resolve) => {
     const newUser = { id: v4(), ...user };
     data.push(newUser);
-    writeDataToFile("./src/data/users.json", data);
     resolve(newUser);
   });
 }
@@ -40,7 +39,6 @@ export function update(
   return new Promise((resolve) => {
     const index = data.findIndex((userItem) => userItem.id === id);
     data[index] = { id, ...user };
-    writeDataToFile("./src/data/users.json", data);
     resolve(data[index]);
   });
 }
@@ -48,7 +46,7 @@ export function update(
 export function remove(id: string) {
   return new Promise<void>((resolve) => {
     const filteredData = data.filter((userItem) => userItem.id !== id);
-    writeDataToFile("./src/data/users.json", filteredData);
+    data = filteredData;
     resolve();
   });
 }
