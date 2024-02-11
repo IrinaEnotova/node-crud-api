@@ -9,7 +9,7 @@ afterAll((done) => {
   done();
 });
 
-describe("CRUD server allows", () => {
+describe("CRUD server allows to", () => {
   let id: string;
   const userData: IUserData = {
     username: "Arte Perotti",
@@ -35,12 +35,37 @@ describe("CRUD server allows", () => {
     expect(JSON.stringify(body.hobbies)).toBe(JSON.stringify(userData.hobbies));
   });
 
-  test("get the created record by its id", async () => {
+  test("get the created record by its id with a GET", async () => {
     const { body, statusCode } = await supertest(server).get(
       `${endpoint}/${id}`
     );
 
     expect(statusCode).toBe(200);
     expect(body).toEqual({ ...userData, id });
+  });
+
+  test("update the created record with a PUT", async () => {
+    const updatedData = { username: "John Doe" };
+    const { body, statusCode } = await supertest(server)
+      .put(`${endpoint}/${id}`)
+      .send(updatedData);
+
+    expect(statusCode).toBe(200);
+    expect(body).toEqual({ ...userData, id, ...updatedData });
+  });
+
+  test("delete the created object by id with a DELETE", async () => {
+    const { statusCode } = await supertest(server).delete(`${endpoint}/${id}`);
+
+    expect(statusCode).toBe(204);
+  });
+
+  test("get a deleted object by id with a GET", async () => {
+    const { body, statusCode } = await supertest(server).get(
+      `${endpoint}/${id}`
+    );
+
+    expect(statusCode).toBe(404);
+    expect(body).toEqual({ message: "User was not found" });
   });
 });
