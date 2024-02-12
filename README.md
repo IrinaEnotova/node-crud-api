@@ -2,23 +2,31 @@
 
 Implement simple CRUD API using in-memory database underneath.
 
-#### [RSSchool NodeJS Course Assignment](https://github.com/AlreadyBored/nodejs-assignments/blob/main/assignments/crud-api/assignment.md)
+#### [Task 3](https://github.com/AlreadyBored/nodejs-assignments/blob/main/assignments/crud-api/assignment.md)
 
 ---
 
 #### Installation
 
+Clone repo
+
 ```bash
 $ git clone https://github.com/IrinaEnotova/node-crud-api.git
 ```
+
+Change directory
 
 ```bash
 $ cd node-crud-api
 ```
 
+Change branch
+
 ```bash
 $ git checkout dev
 ```
+
+Install dependencies
 
 ```bash
 $ npm install
