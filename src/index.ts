@@ -5,9 +5,9 @@ import {
   createUser,
   updateUser,
   deleteUser,
-} from "./controllers/userController";
+} from "./controllers/userController.js";
 import dotenv from "dotenv";
-import isValidUuid from "./utils/isValidUuid";
+import isValidUuid from "./utils/isValidUuid.js";
 
 dotenv.config();
 

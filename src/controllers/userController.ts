@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from "http";
 
-import * as User from "../models/userModel";
-import getPostData from "../utils/getPostData";
+import * as User from "../models/userModel.js";
+import getPostData from "../utils/getPostData.js";
 
 // @desk Get All Users
 // @route GET /api/users

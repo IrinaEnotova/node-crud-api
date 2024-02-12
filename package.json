@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "start:dev": "nodemon",
-    "start:prod": "webpack --mode=production --node-env=production && node dist/bundle.cjs",
+    "start:prod": "tsc && node ./dist/src/index.js",
+    "start:multi": "tsc && node ./dist/src/multi.js --cluster=enable",
     "build": "webpack --mode=production --node-env=production",
     "watch": "webpack --watch",
     "lint": "npx eslint ./src",
