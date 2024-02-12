@@ -1,11 +1,6 @@
 import os from "os";
-import cluster from "cluster";
-import http, {
-  IncomingMessage,
-  ServerResponse,
-  request,
-  createServer,
-} from "http";
+import cluster, { Worker } from "cluster";
+import http, { IncomingMessage, ServerResponse, createServer } from "http";
 import {
   getUser,
   getUsers,
@@ -15,7 +10,10 @@ import {
 } from "./controllers/userController.js";
 import isValidUuid from "./utils/isValidUuid.js";
 
-const server = http.createServer((req, res) => {
+const handleRequest = (
+  req: IncomingMessage,
+  res: ServerResponse<IncomingMessage>
+) => {
   try {
     if (req.url === "/api/users" && req.method === "GET") {
       getUsers(res);
@@ -53,49 +51,34 @@ const server = http.createServer((req, res) => {
     res.writeHead(500, { "Content-Type": "application/json" });
     res.end(JSON.stringify({ message: "Internal Server Error" }));
   }
-});
+};
 
 const PORT = process.env.PORT || 4000;
 
 const cores = os.cpus().length;
-let separatePort = +PORT + 1;
 
+const workers: Worker[] = [];
 if (cluster.isPrimary) {
-  console.log(`Load balancer ${process.pid} is running on port ${PORT}`);
-
-  createServer((req: IncomingMessage, res: ServerResponse) => {
-    const options = {
-      hostname: "localhost",
-      port: separatePort,
-      path: req.url,
-      method: req.method,
-      headers: req.headers,
-    };
-
-    const proxy = request(options, function (incomingMessage: IncomingMessage) {
-      res.writeHead(incomingMessage.statusCode!, incomingMessage.headers);
-      incomingMessage.pipe(res, { end: true });
-
-      if (separatePort === +PORT + cores) {
-        separatePort = +PORT + 1;
-      } else {
-        separatePort = separatePort + 1;
-      }
-    });
-
-    req.pipe(proxy, { end: true });
-  }).listen(PORT);
+  const server = createServer(handleRequest);
+  server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  console.log(`Primary process ${process.pid} is running`);
 
   for (let i = 0; i < cores; i++) {
-    cluster.fork({
-      PORT: +PORT + 1 + i,
-    });
+    const worker = cluster.fork();
+    workers.push(worker);
+    console.log(`Worker ${worker.process.pid} started`);
   }
 
   cluster.on("exit", (worker) => {
-    console.log(`Worker ${worker.process.pid} has exited`);
+    console.log(`Worker ${worker.process.pid} died`);
+    cluster.fork();
+    workers.splice(workers.indexOf(worker), 1);
   });
 } else {
-  server.listen(PORT);
-  console.log(`Worker ${process.pid} starts work on port ${PORT}`);
+  const server = http.createServer(handleRequest);
+  server.listen(+PORT + cluster.worker!.id, () =>
+    console.log(
+      `Worker ${cluster.worker?.id} running on port ${+PORT + cluster.worker!.id}`
+    )
+  );
 }
