@@ -15,7 +15,10 @@ const handleRequest = (
   res: ServerResponse<IncomingMessage>
 ) => {
   try {
-    if (req.url === "/api/users" && req.method === "GET") {
+    if (
+      (req.url === "/api/users" || req.url === "/api/users/") &&
+      req.method === "GET"
+    ) {
       getUsers(res);
     } else if (req.url?.split("/")[3] && req.method === "GET") {
       const id = req.url.split("/")[3];
@@ -25,7 +28,10 @@ const handleRequest = (
         res.writeHead(400, { "Content-Type": "application/json" });
         res.end(JSON.stringify({ message: "userId is not invalid" }));
       }
-    } else if (req.url === "/api/users" && req.method === "POST") {
+    } else if (
+      (req.url === "/api/users" || req.url === "/api/users/") &&
+      req.method === "POST"
+    ) {
       createUser(req, res);
     } else if (req.url?.split("/")[3] && req.method === "PUT") {
       const id = req.url.split("/")[3];
